@@ -8,9 +8,9 @@
 
 {% block content %}
 
-<div class="card shadow-sm mb-4">
+<div class="card shadow-sm mb-4 border-0">
     <div class="card-body">
-        <h2 class="card-title">{{ facility.name }}</h2>
+        <h2 class="card-title mb-2">{{ facility.name }}</h2>
 
         {% if facility.city %}
             <p class="text-muted mb-1">
@@ -18,7 +18,7 @@
             </p>
         {% endif %}
 
-        <p class="text-muted">
+        <p class="text-muted mb-2">
             {{ facility.address }}
         </p>
 
@@ -35,30 +35,43 @@
 
 <div class="row">
     {% for court in facility.courts.all %}
-        <div class="col-md-4 mb-3">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ court.name }}</h5>
+        {% if court.is_active %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm court-card">
+                <div class="card-body d-flex flex-column">
 
-                    {% if court.sport %}
-                        <p class="text-muted">Sport: {{ court.sport }}</p>
-                    {% endif %}
+                    <h5 class="card-title mb-2 flex-grow-1">{{ court.name }}</h5>
 
-                    {% if court.is_active %}
-                        <span class="badge bg-primary">Dostupan</span>
-                    {% else %}
-                        <span class="badge bg-secondary">Nedostupan</span>
-                    {% endif %}
+                    <div class="court-info-bottom">
+                        {% if court.sport %}
+                            <p class="text-muted mb-3">
+                                Sport: {{ court.get_sport_display }}
+                            </p>
+                        {% else %}
+                             <p class="text-muted mb-3">&nbsp;</p> 
+                        {% endif %}
+
+                        <div class="mt-auto">
+                            <span class="badge bg-primary mb-2">Dostupan</span>
+                            <br>
+                            <a href="#" class="btn btn-sm btn-outline-primary w-100">
+                                Rezerviraj
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+        {% endif %}
     {% empty %}
-        <p>Nema terena za ovu dvoranu.</p>
+        <p>Nema aktivnih terena za ovu dvoranu.</p>
     {% endfor %}
 </div>
-
-<a href="{% url 'facilities:facilities' %}" class="btn btn-outline-primary mt-3">
-    ← Nazad na dvorane
-</a>
+<div class="mt-3">
+    <a href="{% url 'facilities:facilities' %}" class="btn btn-outline-secondary">
+        ← Nazad na dvorane
+    </a>
+</div>
 
 {% endblock %}

@@ -9,17 +9,14 @@
 {% for facility in facilities %}
  <div class="mb-3">
     <a href="{% url 'facilities:facility_detail' facility.id %}" 
-       class="text-decoration-none text-dark">
-        <strong>{{ facility.name }}</strong>
+       class="facility-link text-decoration-none">
+        {{ facility.name }}
     </a>
 
     {% if facility.city %} ({{ facility.city }}){% endif %}
     <br>
     <small class="text-muted">{{ facility.address }}</small>
  </div>
-
-{% empty %}
-    <p>Nema dvorana još.</p>
 {% endfor %}
 
 {% endblock %}

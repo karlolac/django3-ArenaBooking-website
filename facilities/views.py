@@ -11,4 +11,8 @@ from .models import Facility
 
 def facilitydetail(request, facility_id):
     facility = get_object_or_404(Facility, id=facility_id)
-    return render(request, 'facilitydetail.html', {'facility': facility})
+    courts = facility.courts.filter(is_active=True)
+    return render(request, 'facilitydetail.html', {
+        'facility': facility,
+        'courts':courts
+        })
