@@ -7,21 +7,15 @@
 {% block hero %}{% endblock %}
 
 {% block content %}
+{% load static %}
 
 <div class="card shadow-sm mb-4 border-0">
     <div class="card-body">
         <h2 class="card-title mb-2">{{ facility.name }}</h2>
-
         {% if facility.city %}
-            <p class="text-muted mb-1">
-                📍 {{ facility.city }}
-            </p>
+            <p class="text-muted mb-1">📍 {{ facility.city }}</p>
         {% endif %}
-
-        <p class="text-muted mb-2">
-            {{ facility.address }}
-        </p>
-
+        <p class="text-muted mb-2">{{ facility.address }}</p>
         {% if facility.is_active %}
             <span class="badge bg-success">Aktivna</span>
         {% else %}
@@ -30,36 +24,38 @@
     </div>
 </div>
 
-
-<h4 class="mb-3">Terene u ovoj dvorani</h4>
+<h4 class="mb-3">Tereni u ovoj dvorani</h4>
 
 <div class="row">
     {% for court in facility.courts.all %}
         {% if court.is_active %}
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm court-card">
+                
+                {# Koristimo |lower filter kako bi provjera bila neovisna o velikim/malim slovima #}
+                {% if court.sport|lower == "nogomet" or court.sport|lower == "football" %}
+                    <img src="{% static 'facilities/images/football.jpg' %}" class="card-img-top" alt="Football" style="height: 180px; object-fit: cover;">
+                {% elif court.sport|lower == "košarka" or court.sport|lower == "kosarka" or court.sport|lower == "basketball" %}
+                    <img src="{% static 'facilities/images/basketball.png' %}" class="card-img-top" alt="Basketball" style="height: 180px; object-fit: cover;">
+                {% elif court.sport|lower == "tenis" or court.sport|lower == "tennis" %}
+                    <img src="{% static 'facilities/images/tennis.jpg' %}" class="card-img-top" alt="Tennis" style="height: 180px; object-fit: cover;">
+                {% elif court.sport|lower == "padel" %}
+                    <img src="{% static 'facilities/images/padel.jpg' %}" class="card-img-top" alt="Padel" style="height: 180px; object-fit: cover;">
+                {% else %}
+                    {# Provjeri je li default slika .jpg ili .png u tvom folderu #}
+                    <img src="{% static 'facilities/images/default.png' %}" class="card-img-top" alt="Sport" style="height: 180px; object-fit: cover;">
+                {% endif %}
+
                 <div class="card-body d-flex flex-column">
-
                     <h5 class="card-title mb-2 flex-grow-1">{{ court.name }}</h5>
-
                     <div class="court-info-bottom">
-                        {% if court.sport %}
-                            <p class="text-muted mb-3">
-                                Sport: {{ court.get_sport_display }}
-                            </p>
-                        {% else %}
-                             <p class="text-muted mb-3">&nbsp;</p> 
-                        {% endif %}
-
+                        <p class="text-muted mb-3">Sport: {{ court.get_sport_display }}</p>
                         <div class="mt-auto">
                             <span class="badge bg-primary mb-2">Dostupan</span>
                             <br>
-                            <a href="#" class="btn btn-sm btn-outline-primary w-100">
-                                Rezerviraj
-                            </a>
+                            <a href="#" class="btn btn-sm btn-outline-primary w-100">Rezerviraj</a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -68,10 +64,8 @@
         <p>Nema aktivnih terena za ovu dvoranu.</p>
     {% endfor %}
 </div>
-<div class="mt-3">
-    <a href="{% url 'facilities:facilities' %}" class="btn btn-outline-secondary">
-        ← Nazad na dvorane
-    </a>
-</div>
 
+<div class="mt-3">
+    <a href="{% url 'facilities:facilities' %}" class="btn btn-outline-secondary">← Nazad na dvorane</a>
+</div>
 {% endblock %}
