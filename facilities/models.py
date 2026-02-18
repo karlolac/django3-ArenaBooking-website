@@ -12,6 +12,9 @@ class Facility(models.Model):
             return f"{self.name} ({self.city})"
         else:
             return self.name
+    class Meta:
+        verbose_name = "Facility"
+        verbose_name_plural = "Facilities"
     
 
 class Court(models.Model):

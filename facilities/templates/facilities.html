@@ -1,13 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}
-Dvorane | ArenaBooking
-{% endblock %}
-
-{% block hero %}
-{% endblock %}
+{% block title %}Dvorane | ArenaBooking{% endblock %}
+{% block hero %}{% endblock %}
 
 {% block content %}
 <h2>Dvorane</h2>
-<p>Ovdje ide lista dvorana.</p>
+
+{% for facility in facilities %}
+ <div class="mb-3">
+    <a href="{% url 'facilities:facility_detail' facility.id %}" 
+       class="text-decoration-none text-dark">
+        <strong>{{ facility.name }}</strong>
+    </a>
+
+    {% if facility.city %} ({{ facility.city }}){% endif %}
+    <br>
+    <small class="text-muted">{{ facility.address }}</small>
+ </div>
+
+{% empty %}
+    <p>Nema dvorana još.</p>
+{% endfor %}
+
 {% endblock %}
