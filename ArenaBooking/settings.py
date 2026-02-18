@@ -57,7 +57,7 @@ ROOT_URLCONF = 'ArenaBooking.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS':  [BASE_DIR / 'ArenaBooking' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
