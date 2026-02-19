@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db import transaction
 from django.contrib import messages
-
+from django.contrib.admin.views.decorators import staff_member_required
 from facilities.models import Court
 from .models import Booking
 from .forms import BookingForm
 
+@login_required
 def bookings(request):
     now = timezone.now()
 
@@ -50,3 +51,15 @@ def bookcourt(request, court_id):
         "court": court,
         "form": form
     })
+
+@staff_member_required
+def approve_bookings(request):
+    pending_bookings = Booking.objects.filter(status='pending').order_by('start_datetime')
+    return render(request, 'bookings/approvebookings.html', {'bookings': pending_bookings})
+
+@staff_member_required
+def update_booking_status(request, booking_id, new_status):
+    booking = Booking.objects.get(id=booking_id)
+    booking.status = new_status
+    booking.save()
+    return redirect('bookings:approve_bookings')

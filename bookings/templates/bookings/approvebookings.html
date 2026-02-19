@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Novi zahtjevi za rezervaciju</h2>
+    <table class="table table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Korisnik</th>
+                <th>Teren</th>
+                <th>Vrijeme</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bookings %}
+            <tr>
+                <td>{{ b.user.username }}</td>
+                <td>{{ b.court.name }}</td>
+                <td>{{ b.start_datetime|date:"d.m. H:i" }}</td>
+                <td>
+                    <a href="{% url 'bookings:update_booking_status' b.id 'confirmed' %}" class="btn btn-success btn-sm">Potvrdi</a>
+                    <a href="{% url 'bookings:update_booking_status' b.id 'cancelled' %}" class="btn btn-danger btn-sm">Odbij</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-center">Nema novih zahtjeva na čekanju.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

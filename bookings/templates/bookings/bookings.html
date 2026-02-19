@@ -21,8 +21,14 @@
                                 <small class="text-muted d-block mt-1">📍 {{ b.court.facility.address }}, {{ b.court.facility.city }}</small>
                             </div>
                             <div class="text-end">
-                                <span class="badge bg-success p-2 px-3">Potvrđeno</span>
-                                </div>
+                              {% if b.status == 'pending' %}
+                                  <span class="badge bg-warning text-dark p-2 px-3">⌛ Na čekanju</span>
+                              {% elif b.status == 'confirmed' %}
+                                  <span class="badge bg-success p-2 px-3">✅ Potvrđeno</span>
+                              {% else %}
+                                  <span class="badge bg-danger p-2 px-3">❌ Otkazano</span>
+                              {% endif %}
+                          </div>
                         </div>
                     </div>
                 </div>

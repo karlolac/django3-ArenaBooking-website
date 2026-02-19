@@ -1,22 +1,46 @@
 {% extends "base.html" %}
-
-{% block title %}Dvorane | ArenaBooking{% endblock %}
-<!--{% block hero %}{% endblock %}-->
+{% load static %} {% block title %}Dvorane | ArenaBooking{% endblock %}
 
 {% block content %}
-<h2>Dvorane</h2>
+<div class="container">
+    <div class="mb-5 text-center">
+        <h2 class="fw-bold display-6">Istražite sportske objekte</h2>
+        <p class="text-muted">Pronađite idealan teren za svoj sljedeći termin</p>
+    </div>
 
-{% for facility in facilities %}
- <div class="mb-3">
-    <a href="{% url 'facilities:facility_detail' facility.id %}" 
-       class="facility-link text-decoration-none">
-        {{ facility.name }}
-    </a>
-
-    {% if facility.city %} ({{ facility.city }}){% endif %}
-    <br>
-    <small class="text-muted">{{ facility.address }}</small>
- </div>
-{% endfor %}
-
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for facility in facilities %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 transition-hover">
+                <img src="{% static 'facilities/images/arenadefault.png' %}" 
+                     class="card-img-top" 
+                     alt="{{ facility.name }}" 
+                     style="height: 200px; object-fit: cover;">
+                
+                <div class="card-body d-flex flex-column"> <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold mb-0">{{ facility.name }}</h5>
+                        {% if facility.city %}
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">{{ facility.city }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="card-text text-muted small mb-3">
+                        <i class="bi bi-geo-alt-fill me-1"></i> {{ facility.address }}
+                    </p>
+                    
+                    <div class="mt-auto">
+                        <a href="{% url 'facilities:facility_detail' facility.id %}" class="btn btn-primary w-100 fw-bold">
+                            Pogledaj dostupne terene
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <h4 class="text-muted">Trenutno nema dostupnih dvorana.</h4>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
