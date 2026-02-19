@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Moje rezervacije</h2>
+
+<h3>Aktivne</h3>
+{% if active_bookings %}
+  <ul>
+    {% for b in active_bookings %}
+      <li>
+        <strong>{{ b.court }}</strong><br>
+        {{ b.start_datetime }} – {{ b.end_datetime }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Nema aktivnih rezervacija.</p>
+{% endif %}
+
+<hr>
+
+<h3>Prošle</h3>
+{% if past_bookings %}
+  <ul>
+    {% for b in past_bookings %}
+      <li style="opacity:0.7">
+        <strong>{{ b.court }}</strong><br>
+       {{ b.start_datetime|date:"d.m.Y H:i" }} – {{ b.start_datetime|date:"d.m.Y H:i" }} (isteklo)
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Nema prošlih rezervacija.</p>
+{% endif %}
+
+{% endblock %}
