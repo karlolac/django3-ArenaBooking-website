@@ -1,12 +1,54 @@
 {% extends "base.html" %}
 
 {% block title %}Početna | ArenaBooking{% endblock %}
-{% block hero %}{% endblock %}
-{% block content %}
 
-<div class="text-center">
-    <h2>Dobrodošao u ArenaBooking sustav</h2>
-    <p class="mt-3">Ovdje će uskoro biti lista dostupnih sportskih dvorana.</p>
+{% block hero %}
+<div class="bg-primary text-white text-center py-5 mb-5 shadow">
+    <div class="container py-4">
+        <h1 class="display-4 fw-bold">Pronađi idealan teren u par klikova</h1>
+        <p class="lead">Brzo, jednostavno i bez komplikacija rezerviraj svoj termin za nogomet, košarku ili tenis.</p>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'accounts:signup' %}" class="btn btn-light btn-lg px-4 me-sm-3 fw-bold">Započni odmah</a>
+        {% endif %}
+        <a href="{% url 'facilities:facilities' %}" class="btn btn-outline-light btn-lg px-4 fw-bold">Pregledaj dvorane</a>
+    </div>
 </div>
+{% endblock %}
 
+{% block content %}
+<div class="container">
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 text-center">
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+            <h3 class="fs-4">Brza rezervacija</h3>
+            <p>Odaberi dvoranu, provjeri slobodne termine i osiguraj svoje mjesto u manje od minute.</p>
+        </div>
+        
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3">
+                <i class="bi bi-geo-alt"></i>
+            </div>
+            <h3 class="fs-4">Najbolje lokacije</h3>
+            <p>Sve sportske dvorane u tvojoj blizini na jednom mjestu, s detaljnim informacijama o terenima.</p>
+        </div>
+        
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3">
+                <i class="bi bi-person-badge"></i>
+            </div>
+            <h3 class="fs-4">Tvoj profil</h3>
+            <p>Prati svoje aktivne rezervacije, pregledaj povijest termina i upravljaj svojim dolascima.</p>
+        </div>
+    </div>
+
+    <div class="p-5 mb-4 bg-light rounded-3 border">
+        <div class="container-fluid py-5 text-center">
+            <h2 class="display-6 fw-bold">Spreman za igru?</h2>
+            <p class="col-md-8 fs-5 mx-auto">Nemoj čekati da se termini popune. Provjeri dostupnost dvorana "Jug II", "Franjo Krežma" i ostalih Arena odmah!</p>
+            <a href="{% url 'facilities:facilities' %}" class="btn btn-primary btn-lg px-5 mt-3">Pregledaj dostupne dvorane</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

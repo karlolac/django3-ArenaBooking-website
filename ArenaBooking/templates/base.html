@@ -86,31 +86,26 @@
                        href="{% url 'bookings:bookings' %}">Rezervacije</a>
                 </li>
 
-                {% if user.is_authenticated %}
-                        <li class="nav-item ms-3">
-                        <span class="navbar-text text-light fw-normal opacity-75">
-                              {{ user.username }}
-                        </span>
-                        </li>
-
-                    <li class="nav-item ms-3">
-                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+               <div class="d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                        <span class="text-light me-3 small">Bok, {{ user.username }}</span>
+                        
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-light btn-sm">Logout</button>
+                            <button type="submit" class="btn btn-outline-light btn-sm">Odjava</button>
                         </form>
-                    </li>
                     {% else %}
-                    <li class="nav-item ms-3">
-                        <a class="btn btn-light btn-sm" href="{% url 'login' %}">Login</a>
-                    </li>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2">Prijava</a>
+                        <a href="{% url 'accounts:signup' %}" class="btn btn-warning btn-sm fw-bold text-dark">Registracija</a>
                     {% endif %}
+                </div>
 
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- HERO (možeš ga sakriti po potrebi) -->
+<!-- 
 {% block hero %}
 <section class="hero text-center">
     <div class="container">
@@ -119,7 +114,7 @@
         <a href="#" class="btn btn-main mt-4">Rezerviraj sada</a>
     </div>
 </section>
-{% endblock %}
+{% endblock %}-->
 
 <!-- CONTENT -->
 <main class="flex-fill">
