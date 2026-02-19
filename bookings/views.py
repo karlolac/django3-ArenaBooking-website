@@ -18,8 +18,8 @@ def bookings(request):
         .order_by("-start_datetime")
     )
 
-    active_bookings = user_bookings.filter(end_datetime__gt=now)
-    past_bookings = user_bookings.filter(end_datetime__lte=now)
+    active_bookings = user_bookings.filter(end_datetime__gt=now).order_by("start_datetime")
+    past_bookings = user_bookings.filter(end_datetime__lte=now).order_by("-start_datetime")
 
     return render(request, "bookings/bookings.html", {
         "active_bookings": active_bookings,
@@ -33,15 +33,18 @@ def bookcourt(request, court_id):
     court = get_object_or_404(Court, id=court_id)
 
     if request.method == "POST":
-        form = BookingForm(request.POST)
+        form = BookingForm(request.POST, court_id=court_id)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.user = request.user
             booking.court = court
             booking.save()
+            
+            messages.success(request, "Vaša rezervacija je uspješno potvrđena!")
+            
             return redirect("bookings:bookings")
     else:
-        form = BookingForm()
+        form = BookingForm(court_id=court_id)
 
     return render(request, "bookings/bookcourt.html", {
         "court": court,

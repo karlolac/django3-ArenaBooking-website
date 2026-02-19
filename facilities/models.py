@@ -1,11 +1,14 @@
 from django.db import models
-
+from datetime import time
 
 class Facility(models.Model):
     name = models.CharField(max_length=120)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=80, blank=True)
     is_active = models.BooleanField(default=True)
+    
+    working_from = models.TimeField(default=time(8, 0))  # Podrazumijevano 08:00
+    working_till = models.TimeField(default=time(22, 0)) # Podrazumijevano 22:00
     
     def __str__(self):
         if self.city:
@@ -15,6 +18,7 @@ class Facility(models.Model):
     class Meta:
         verbose_name = "Facility"
         verbose_name_plural = "Facilities"
+
     
 
 class Court(models.Model):

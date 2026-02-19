@@ -1,36 +1,55 @@
 {% extends "base.html" %}
+
 {% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Moje rezervacije</h2>
 
-<h2>Moje rezervacije</h2>
+    <h3 class="text-primary mb-3">Nadolazeće</h3>
+    {% if active_bookings %}
+        <div class="row">
+            {% for b in active_bookings %}
+                <div class="col-12 mb-3">
+                    <div class="card border-primary shadow-sm">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title mb-1 text-primary">{{ b.court.name }}</h5>
+                                <h6 class="text-muted mb-3">{{ b.court.facility.name }}</h6>
+                                <p class="card-text mb-0">
+                                    <strong>📅 Datum:</strong> {{ b.start_datetime|date:"d.m.Y." }} 
+                                    <span class="ms-3"><strong>🕒 Vrijeme:</strong> {{ b.start_datetime|date:"H:i" }} – {{ b.end_datetime|date:"H:i" }}</span>
+                                </p>
+                                <small class="text-muted d-block mt-1">📍 {{ b.court.facility.address }}, {{ b.court.facility.city }}</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success p-2 px-3">Potvrđeno</span>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-light border shadow-sm text-center">Nema aktivnih rezervacija.</div>
+    {% endif %}
 
-<h3>Aktivne</h3>
-{% if active_bookings %}
-  <ul>
-    {% for b in active_bookings %}
-      <li>
-        <strong>{{ b.court }}</strong><br>
-        {{ b.start_datetime }} – {{ b.end_datetime }}
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>Nema aktivnih rezervacija.</p>
-{% endif %}
+    <hr class="my-5">
 
-<hr>
-
-<h3>Prošle</h3>
-{% if past_bookings %}
-  <ul>
-    {% for b in past_bookings %}
-      <li style="opacity:0.7">
-        <strong>{{ b.court }}</strong><br>
-       {{ b.start_datetime|date:"d.m.Y H:i" }} – {{ b.start_datetime|date:"d.m.Y H:i" }} (isteklo)
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>Nema prošlih rezervacija.</p>
-{% endif %}
-
+    <h3 class="text-muted mb-3">Povijest</h3>
+    {% if past_bookings %}
+        <div class="row">
+            {% for b in past_bookings %}
+                <div class="col-12 mb-2" style="opacity: 0.7;">
+                    <div class="card bg-light border-0">
+                        <div class="card-body py-2 d-flex justify-content-between">
+                            <span><strong>{{ b.court.name }}</strong> - {{ b.court.facility.name }}</span>
+                            <span class="text-muted small">{{ b.start_datetime|date:"d.m.Y. H:i" }} (Isteklo)</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted italic">Povijest rezervacija je prazna.</p>
+    {% endif %}
+</div>
 {% endblock %}

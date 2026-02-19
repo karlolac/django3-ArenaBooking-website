@@ -87,9 +87,11 @@
                 </li>
 
                 {% if user.is_authenticated %}
-                    <li class="nav-item ms-3 text-white">
-                        Pozdrav, <strong>{{ user.username }}</strong>
-                    </li>
+                        <li class="nav-item ms-3">
+                        <span class="navbar-text text-light fw-normal opacity-75">
+                              {{ user.username }}
+                        </span>
+                        </li>
 
                     <li class="nav-item ms-3">
                         <form method="post" action="{% url 'logout' %}" class="d-inline">

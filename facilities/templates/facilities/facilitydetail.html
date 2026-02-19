@@ -13,11 +13,18 @@
     <div class="card-body">
         <h2 class="card-title mb-2">{{ facility.name }}</h2>
         {% if facility.city %}
-            <p class="text-muted mb-1">📍 {{ facility.city }}</p>
+           <p class="text-muted mb-1">
+            📍 {% if facility.city %}{{ facility.city }}, {% endif %}{{ facility.address }}
+        </p>
         {% endif %}
-        <p class="text-muted mb-2">{{ facility.address }}</p>
+        
+        <div class="mb-3">
+            <span class="text-dark"><strong>🕒 Radno vrijeme:</strong> 
+                {{ facility.working_from|time:"H:i" }} — {{ facility.working_till|time:"H:i" }}
+            </span>
+        </div>
         {% if facility.is_active %}
-            <span class="badge bg-success">Aktivna</span>
+            <span class="badge bg-success">Aktivna</span>   
         {% else %}
             <span class="badge bg-danger">Neaktivna</span>
         {% endif %}
