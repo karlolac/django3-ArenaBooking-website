@@ -20,8 +20,15 @@
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg w-100">Potvrdi rezervaciju</button>
-                    <a href="{% url 'facilities:facility_detail' court.facility.id %}" class="btn btn-link w-100 mt-2">Odustani</a>
+                    {% if user.is_staff %}
+                    <div class="alert alert-warning mt-4">
+                        Staff korisnici mogu pregledati termine, ali ne mogu napraviti rezervaciju.
+                    </div>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Potvrdi rezervaciju</button>
+                    {% endif %}
+                    
+<a href="{% url 'facilities:facility_detail' court.facility.id %}" class="btn btn-link w-100 mt-2">Odustani</a>
                 </div>
             </form>
         </div>

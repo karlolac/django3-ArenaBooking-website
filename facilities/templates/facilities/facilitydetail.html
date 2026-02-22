@@ -60,8 +60,10 @@
                         <div class="mt-auto">
                             <span class="badge bg-primary mb-2">Dostupan</span>
                             <br>
-                        <a href="{% url 'bookings:book_court' court.id %}" class="btn btn-sm btn-primary w-100">Rezerviraj</a>                        
-                    </div>
+                                <a href="{% url 'bookings:bookcourt' court.id %}" class="btn btn-primary w-100 mt-2">
+                                    Rezerviraj
+                                </a>
+                        </div>
                     </div>
                 </div>
             </div>

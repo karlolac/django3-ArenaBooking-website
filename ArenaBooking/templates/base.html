@@ -88,17 +88,22 @@
            href="{% url 'facilities:facilities' %}">Dvorane</a>
     </li>
 
-            <li class="nav-item">
-                <a class="nav-link {% if 'bookings' in request.path and 'approve' not in request.path %}active fw-bold{% endif %}" 
-                href="{% url 'bookings:bookings' %}">Moje Rezervacije</a>
-            </li>
-
-            {% if user.is_staff %}
-            <li class="nav-item ms-lg-3">
-                <a class="btn btn-sm btn-warning fw-bold text-dark shadow-sm" href="{% url 'bookings:approve_bookings' %}">
-                    Upravljačka ploča
-                </a>
-            </li>
+                {% if not user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link {% if 'bookings' in request.path and 'approve' not in request.path %}active fw-bold{% endif %}"
+                    href="{% url 'bookings:bookings' %}">
+                    Moje Rezervacije
+                    </a>
+                </li>
+                {% endif %}
+                               
+                {% if perms.bookings.can_approve_booking and not user.is_superuser %}
+                <li class="nav-item ms-lg-3">
+                    <a class="btn btn-sm btn-warning fw-bold text-dark shadow-sm"
+                    href="{% url 'bookings:approve_bookings' %}">
+                        Upravljačka ploča
+                    </a>
+                </li>
             {% endif %}
 
             <li class="nav-item ms-lg-4 d-none d-lg-block">
