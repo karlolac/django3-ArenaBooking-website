@@ -21,14 +21,25 @@
                                 <small class="text-muted d-block mt-1">📍 {{ b.court.facility.address }}, {{ b.court.facility.city }}</small>
                             </div>
                             <div class="text-end">
-                              {% if b.status == 'pending' %}
-                                  <span class="badge bg-warning text-dark p-2 px-3">⌛ Na čekanju</span>
-                              {% elif b.status == 'confirmed' %}
-                                  <span class="badge bg-success p-2 px-3">✅ Potvrđeno</span>
-                              {% else %}
-                                  <span class="badge bg-danger p-2 px-3">❌ Otkazano</span>
-                              {% endif %}
-                          </div>
+                                {% if b.status == 'pending' %}
+                                    <span class="badge bg-warning text-dark p-2 px-3">⌛ Na čekanju</span>
+                                {% elif b.status == 'confirmed' %}
+                                    <span class="badge bg-success p-2 px-3">✅ Potvrđeno</span>
+                                {% else %}
+                                    <span class="badge bg-danger p-2 px-3">❌ Otkazano</span>
+                                {% endif %}
+
+                                {% if b.status != 'cancelled' and b.start_datetime > now and not user.is_staff %}
+                                    <form action="{% url 'bookings:cancel_booking' b.id %}" method="post" class="mt-2">
+                                        {% csrf_token %}
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Jesi siguran da želiš otkazati ovu rezervaciju?');">
+                                            Otkaži
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                </div>
                         </div>
                     </div>
                 </div>

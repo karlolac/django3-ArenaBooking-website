@@ -17,7 +17,7 @@ Razvijeno u Django frameworku.
 - Pristup upravljačkoj ploči
 - Odobravanje / odbijanje rezervacija
 
-## 🔧 Admin (staff)
+## 🔧 Admin 
 - Upravljanje korisnicima i grupama
 - Može dodavati dvorane i terene
 - Pregled aplikacije

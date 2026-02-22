@@ -74,3 +74,23 @@ def update_booking_status(request, booking_id, new_status):
     booking.save()
 
     return redirect("bookings:approve_bookings")
+
+@login_required
+def cancel_booking(request, booking_id):
+    if request.method != "POST":
+        return redirect("bookings:bookings")
+
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+
+    if request.user.is_staff:
+        raise PermissionDenied("Staff korisnici ne mogu otkazivati rezervacije.")
+
+    if booking.start_datetime <= timezone.now():
+        messages.error(request, "Ne možete otkazati termin koji je već počeo ili je prošao.")
+        return redirect("bookings:bookings")
+
+    booking.status = "cancelled"
+    booking.save()
+
+    messages.success(request, "Rezervacija je uspješno otkazana.")
+    return redirect("bookings:bookings")
