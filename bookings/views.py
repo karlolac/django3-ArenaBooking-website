@@ -36,10 +36,6 @@ def bookcourt(request, court_id):
     court = get_object_or_404(Court, id=court_id)
 
     if request.method == "POST":
-       ## if request.user.is_superuser:
-           ## messages.warning(request, "Admin može pregledati termine, ali ne može napraviti rezervaciju.")
-           ## return redirect("bookings:bookcourt", court_id=court_id)
-
         form = BookingForm(request.POST, court_id=court_id)
         if form.is_valid():
             booking = form.save(commit=False)

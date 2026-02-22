@@ -15,7 +15,6 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        # VAŽNO: NE stavljamo start_datetime ovdje
         fields = ["date_selection", "time_selection"]
 
     def __init__(self, *args, **kwargs):
@@ -59,7 +58,6 @@ class BookingForm(forms.ModelForm):
                     "Ne možete rezervirati termin koji je već prošao! Molimo odaberite kasniji termin ili drugi dan."
                 )
 
-            # spremi pravi datetime u cleaned_data pod ključem koji ćemo koristiti u save()
             cleaned_data["computed_start_datetime"] = start_dt
 
         return cleaned_data
